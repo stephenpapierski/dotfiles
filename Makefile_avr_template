@@ -7,6 +7,7 @@
 #############################################
 # make			Runs make hex
 # make hex		Generates hex file
+# make libs		Compiles .c libraries, but does not link them
 # make lst		Generates lst file
 # make clean	Cleans file directory
 #
@@ -95,6 +96,8 @@ override LDFLAGS	= -Wl,-Map,$(PRG).map
 hex: definitions_check $(PRG).hex
 
 lst: definitions_check $(PRG).lst
+
+libs: definitions_check $(SRC:%.c=%.o)
 
 # automatically complies all c files in current directory and links them
 # produces an executable with the name of $(PRG).elf
