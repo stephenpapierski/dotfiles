@@ -104,11 +104,27 @@ let &titleold='Terminal'
 " end change terminal title
 
 " Apply custom header to files
+"   define templates
 autocmd bufnewfile *.c,*.cpp so ~/.c_header
-autocmd bufnewfile *.c,*.cpp exe "1," . 6 . "g/file.*/s//file    " .expand("%")
-autocmd bufnewfile *.c,*.cpp exe "1," . 6 . "g/date.*/s//date    " .strftime("%Y-%m-%e %T")
-autocmd Bufwritepre,filewritepre *.c,*.cpp execute "normal ma"
-autocmd Bufwritepre,filewritepre *.c,*.cpp exe "1," . 6 . "g/edited.*/s/edited.*/edited  " .strftime("%Y-%m-%e %T")
-autocmd bufwritepost,filewritepost *.c,*.cpp execute "normal `a"
-" end custom header
+autocmd bufnewfile *.h so ~/.h_header
 
+"   custom commands per file
+let hdefine = toupper(expand("%"))
+autocmd bufnewfile *.h silent exe "1," . line("$") . "g/H_H.*/s//" .hdefine
+"execute 'autocmd bufnewfile *.h exe "1," . 13 . "g/H_H.*/s//" .hdefine'
+autocmd bufnewfile *.h silent exe "1," . line("$") . "g/.H.*/s//_H"
+
+let all_files = "*.c,*.cpp,*.h"
+"   commands on all files
+execute 'autocmd bufnewfile '.all_files.' exe "1," . 6 . "g/file.*/s//file    " .expand("%")'
+execute 'autocmd bufnewfile '.all_files.' exe "1," . 6 . "g/date.*/s//date    " .strftime("%Y-%m-%e %T")'
+execute 'autocmd Bufwritepre,filewritepre '.all_files.' execute "normal ma"'
+execute 'autocmd Bufwritepre,filewritepre '.all_files.' exe "1," . 6 . "g/edited.*/s/edited.*/edited  " .strftime("%Y-%m-%e %T")'
+execute 'autocmd bufwritepost,filewritepost '.all_files.' execute "normal `a"'
+
+"   custom post commands per file
+        "goes to line 12
+autocmd bufnewfile *.h execute "normal! 12gg"
+        "goes to line 10
+autocmd bufnewfile *.c,*.cpp execute "normal! 10gg"
+" end custom header
