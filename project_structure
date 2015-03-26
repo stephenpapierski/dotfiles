@@ -1,0 +1,15 @@
+project
+\_ conf\   --> configuration files (Unix/Linux projects might prefer an 'etc' folder)
+\_ src\    --> main source (for C++ projects, headers and sources go along, but if 
+              your project is a library then separating include files for others 
+              is a better practice)
+\_ src\module1\ --> for each sub module (for multiple files having related contents,
+                   it is better to separate them to their own subfolders)
+\_ doc\    --> documentation 
+\_ include\ --> (for library projects, the distributable include files)
+\_ os\     --> OS (platform dependent) files (uch as makefiles, package building
+              scripts..)
+\_ res\    --> resources required for compilation but not source files (icons, etc.)
+\_ MAKEFILE --> makefile script for building the project
+\_ README   --> introductory document (might refer to doc\README)
+\_ INSTALL  --> Installation document (might refer to doc\INSTALL)
