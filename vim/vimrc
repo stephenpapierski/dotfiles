@@ -1,6 +1,4 @@
 " Maintainer:	Stephen Papierski <stephenpapierski@gmail.com>
-" Last change:	2020 July 15
-
 
 "*****************************************************************************
 "" Vim-PLug core
@@ -39,6 +37,7 @@ Plug 'Yggdroot/indentLine'
 Plug 'mmozuras/vim-whitespace'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
+Plug 'tpope/vim-surround'
 " Plug 'ajh17/VimCompletesMe'
 "
 "
@@ -175,25 +174,6 @@ map <C-f> <Esc><Esc>:BLines!<CR>        " Ctrl-f = Fuzy find text within the fil
 "" Sayonara
 "nnoremap <silent> <leader>q :Sayonara!<CR>   " q = Smart close of just the current buffer
 "nnoremap <space>q :Sayonara!<cr>
-
-
-
-"*****************************************************************************
-"" Vim Cheatsheet
-"*****************************************************************************
-"" FZF
-" Ctrl-t        Search a file
-"   Enter           Open file in current window
-"   Ctrl-x          Open file in new split
-"   Ctrl-v          Open file in new vertical split
-" Ctrl -f       Search for a line in the current buffer
-
-
-
-
-
-
-
 
 
 "
