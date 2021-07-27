@@ -27,7 +27,6 @@ call plug#begin(expand('~/.vim/plugged'))
 call plug#begin(expand('~/.vim/plugged'))
 
 Plug 'preservim/nerdtree'
-" Plug 'sonph/onehalf', {'rtp': 'vim/'}
 Plug 'rakr/vim-one'
 Plug 'itchyny/lightline.vim'
 Plug 'mengelbrecht/lightline-bufferline'
@@ -38,11 +37,12 @@ Plug 'mmozuras/vim-whitespace'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'tpope/vim-surround'
-" Plug 'ajh17/VimCompletesMe'
+" Plug 'ajh17/vimcompletesme'
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 "
 "
 " Great colorscheme but overrides lightline colorscheme
-" Plug 'morhetz/gruvbox'
+Plug 'morhetz/gruvbox'
 "
 "Plug 'mhinz/vim-sayonara', { 'on': 'Sayonara' }
 "Plug 'mkitt/tabline.vim'
@@ -98,8 +98,8 @@ set laststatus=2        " shows statusbar at all times
 set noshowmode          " dont display mode (lightline handles this)
 
 "" Color Settings
-colorscheme one
-" autocmd vimenter * colorscheme gruvbox
+" colorscheme one
+autocmd vimenter * colorscheme gruvbox
 set background=dark     " Enable dark mode
 syntax on               " Turn on syntax highlighting.
 
