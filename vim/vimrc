@@ -26,25 +26,22 @@ call plug#begin(expand('~/.vim/plugged'))
 "*****************************************************************************
 call plug#begin(expand('~/.vim/plugged'))
 
-Plug 'preservim/nerdtree'
-Plug 'rakr/vim-one'
-Plug 'itchyny/lightline.vim'
-Plug 'mengelbrecht/lightline-bufferline'
-Plug 'tpope/vim-commentary'
-Plug 'jiangmiao/auto-pairs'
-Plug 'Yggdroot/indentLine'
-Plug 'mmozuras/vim-whitespace'
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-Plug 'junegunn/fzf.vim'
-Plug 'tpope/vim-surround'
-" Plug 'ajh17/vimcompletesme'
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'preservim/nerdtree'                               " Tree file system explorer
+Plug 'itchyny/lightline.vim'                            " Statusline/tabline
+Plug 'mengelbrecht/lightline-bufferline'                " Bufferline(tabs) for lightline
+Plug 'tpope/vim-commentary'                             " Comment/uncomment stuff
+Plug 'jiangmiao/auto-pairs'                             " Auto add/remove brackets, parens, quotes
+Plug 'Yggdroot/indentLine'                              " Display indendation level information
+Plug 'mmozuras/vim-whitespace'                          " Strips trailing whitespace
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }     " Command line fuzzy finder
+Plug 'junegunn/fzf.vim'                                 " Plugin/keymappings for fzf
+Plug 'tpope/vim-surround'                               " Add, delete, change surrounding brackets, parents, quotes
+" Plug 'lifepillar/vim-mucomplete'                        " Autocomplete
+Plug 'morhetz/gruvbox'                                  " Colorscheme
+Plug 'SirVer/ultisnips'                                 " Snippets engine
+Plug 'honza/vim-snippets'                               " Snippets
+" Plug 'rakr/vim-one'                                     " Colorscheme
 "
-"
-" Great colorscheme but overrides lightline colorscheme
-Plug 'morhetz/gruvbox'
-"
-"Plug 'mhinz/vim-sayonara', { 'on': 'Sayonara' }
 "Plug 'mkitt/tabline.vim'
 "Plug 'jistr/vim-nerdtree-tabs'
 "Plug 'tpope/vim-fugitive'
@@ -99,7 +96,7 @@ set noshowmode          " dont display mode (lightline handles this)
 
 "" Color Settings
 " colorscheme one
-autocmd vimenter * colorscheme gruvbox
+colorscheme gruvbox
 set background=dark     " Enable dark mode
 syntax on               " Turn on syntax highlighting.
 
@@ -121,27 +118,48 @@ let g:indentLine_leadingSpaceChar = '.'
 "" Lightline Options
 " Add tab bar
 let g:lightline = {
-      \ 'colorscheme': 'one',
-      \ 'active': {
-      \   'left': [ [ 'mode', 'paste' ], [ 'readonly', 'filename', 'modified' ] ]
-      \ },
-      \ 'tabline': {
-      \   'left': [ ['buffers'] ],
-      \   'right': [ [''] ]
-      \ },
-      \ 'component_expand': {
-      \   'buffers': 'lightline#bufferline#buffers'
-      \ },
-      \ 'component_type': {
-      \   'buffers': 'tabsel'
-      \ }
-      \ }
+    \ 'colorscheme': 'one',
+    \ 'active': {
+    \   'left': [ [ 'mode', 'paste' ], [ 'readonly', 'filename', 'modified' ] ]
+    \ },
+    \ 'tabline': {
+    \   'left': [ ['buffers'] ],
+    \   'right': [ [''] ]
+    \ },
+    \ 'component_expand': {
+    \   'buffers': 'lightline#bufferline#buffers'
+    \ },
+    \ 'component_type': {
+    \   'buffers': 'tabsel'
+    \ }
+    \ }
 let g:lightline#bufferline#filename_modifier = ':t'
 let g:lightline#bufferline#show_number = 1  " Show buffer number on tabline (switch with :bx where x is buffer number)
 let g:lightline#bufferline#clickable = 0    " Disable clickable tabs
 set showtabline=2                           " Always show tabline
 
+"" UltiSnips Options
+let g:UltiSnipsExpandTrigger="<tab>"
+let g:UltiSnipsJumpForwardTrigger="<tab>"
+let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
+autocmd FileType python UltiSnipsAddFiletypes amergintInternUseVimSnippets
+" Make sure to add amergintInterUserVimSnippets (from sw/interface) to .vim/plugged/vim-snippets/snippets/
 
+ "" MUcomplete Options
+" set completeopt+=menuone                        " Enable MUcomplete
+" set completeopt+=noselect                       " Complete doesn't happen until told to
+" set shortmess+=c                                " Shut off completion messages
+" set belloff+=ctrlg                              " If Vim beeps during completion
+" let g:mucomplete#enable_auto_at_startup = 1     " Enable auto completion on startup
+" let g:mucomplete#tab_when_no_results = 1        " Insert tab when no results are returned
+" " fix autopairs compatability
+" let g:AutoPairsMapSpace = 0
+" imap <silent> <expr> <space> pumvisible()
+"     \ ? "<space>"
+"     \ : "<c-r>=AutoPairsSpace()<cr>"
+" let g:AutoPairsMapCR = 0
+" imap <Plug>MyCR <Plug>(MUcompleteCR)<Plug>AutoPairsReturn
+" imap <cr> <Plug>MyCR
 
 " Consider these options
 "
@@ -170,22 +188,6 @@ map <C-f> <Esc><Esc>:BLines!<CR>        " Ctrl-f = Fuzy find text within the fil
 " Put the following in your .bashrc to define what FzF uses to find files
 " (ignores hidden files, build files in /iso/ and /build/)
 "export FZF_DEFAULT_COMMAND="find . -type f \( ! -iname '.*' \) | grep -v '/iso/' | grep -v '/build/' | grep -v '.svn'"
-"
-" use <tab> for trigger completion and navigate to the next complete item
-function! s:check_back_space() abort
-  let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~ '\s'
-endfunction
-
-inoremap <silent><expr> <Tab>
-      \ pumvisible() ? "\<C-n>" :
-      \ <SID>check_back_space() ? "\<Tab>" :
-      \ coc#refresh()
-
-"" Sayonara
-"nnoremap <silent> <leader>q :Sayonara!<CR>   " q = Smart close of just the current buffer
-"nnoremap <space>q :Sayonara!<cr>
-
 
 "
 "set ruler		" show the cursor position all the time
