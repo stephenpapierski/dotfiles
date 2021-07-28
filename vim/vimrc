@@ -114,7 +114,7 @@ set splitbelow          " Open new vertical split panes to the right
 set splitright          " Open new horizontal split panes below
 
 " indentLine options
-let g:indentLine_char = '¦'
+let g:indentLine_char_list = ['|', '¦', '┆', '┊']
 let g:indentLine_leadingSpaceEnabled = 1
 let g:indentLine_leadingSpaceChar = '.'
 
@@ -170,6 +170,17 @@ map <C-f> <Esc><Esc>:BLines!<CR>        " Ctrl-f = Fuzy find text within the fil
 " Put the following in your .bashrc to define what FzF uses to find files
 " (ignores hidden files, build files in /iso/ and /build/)
 "export FZF_DEFAULT_COMMAND="find . -type f \( ! -iname '.*' \) | grep -v '/iso/' | grep -v '/build/' | grep -v '.svn'"
+"
+" use <tab> for trigger completion and navigate to the next complete item
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~ '\s'
+endfunction
+
+inoremap <silent><expr> <Tab>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<Tab>" :
+      \ coc#refresh()
 
 "" Sayonara
 "nnoremap <silent> <leader>q :Sayonara!<CR>   " q = Smart close of just the current buffer
