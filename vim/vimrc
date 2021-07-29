@@ -1,165 +1,235 @@
 " Maintainer:	Stephen Papierski <stephenpapierski@gmail.com>
 
 "*****************************************************************************
+"" Setup Notes
+"*****************************************************************************
+    " 1) To use custom snippets, make sure to add amergintInterUserVimSnippets.snippets (from sw/interface) to .vim/plugged/vim-snippets/snippets/
+    " 2) Put the following in your .bashrc to define what FzF uses to find files
+    "    export FZF_DEFAULT_COMMAND="find . -type f \( ! -iname '.*' \) | grep -v '/iso/' | grep -v '/build/' | grep -v '.svn'"
+    "    (ignores hidden files, build files in /iso/ and /build/)
+
+"*****************************************************************************
 "" Vim-PLug core
 "*****************************************************************************
-let vimplug_exists=expand('~/.vim/autoload/plug.vim')
+    let vimplug_exists=expand('~/.vim/autoload/plug.vim')
 
-if !filereadable(vimplug_exists)
-  if !executable("curl")
-    echoerr "You have to install curl or first install vim-plug yourself!"
-    execute "q!"
-  endif
-  echo "Installing Vim-Plug..."
-  echo ""
-  silent exec "!\curl -fLo " . vimplug_exists . " --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim"
-  let g:not_finish_vimplug = "yes"
+    if !filereadable(vimplug_exists)
+      if !executable("curl")
+        echoerr "You have to install curl or first install vim-plug yourself!"
+        execute "q!"
+      endif
+      echo "Installing Vim-Plug..."
+      echo ""
+      silent exec "!\curl -fLo " . vimplug_exists . " --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim"
+      let g:not_finish_vimplug = "yes"
 
-  autocmd VimEnter * PlugInstall
-endif
+      autocmd VimEnter * PlugInstall
+    endif
 
-" Required:
-call plug#begin(expand('~/.vim/plugged'))
+    " Required:
+    call plug#begin(expand('~/.vim/plugged'))
 
 "*****************************************************************************
 "" Plug install packages
 "*****************************************************************************
-call plug#begin(expand('~/.vim/plugged'))
+    call plug#begin(expand('~/.vim/plugged'))
 
-Plug 'preservim/nerdtree'                               " Tree file system explorer
-Plug 'itchyny/lightline.vim'                            " Statusline/tabline
-Plug 'mengelbrecht/lightline-bufferline'                " Bufferline(tabs) for lightline
-Plug 'tpope/vim-commentary'                             " Comment/uncomment stuff
-Plug 'jiangmiao/auto-pairs'                             " Auto add/remove brackets, parens, quotes
-Plug 'Yggdroot/indentLine'                              " Display indendation level information
-Plug 'mmozuras/vim-whitespace'                          " Strips trailing whitespace
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }     " Command line fuzzy finder
-Plug 'junegunn/fzf.vim'                                 " Plugin/keymappings for fzf
-Plug 'tpope/vim-surround'                               " Add, delete, change surrounding brackets, parents, quotes
-" Plug 'lifepillar/vim-mucomplete'                        " Autocomplete
-Plug 'morhetz/gruvbox'                                  " Colorscheme
-Plug 'SirVer/ultisnips'                                 " Snippets engine
-Plug 'honza/vim-snippets'                               " Snippets
-" Plug 'rakr/vim-one'                                     " Colorscheme
-"
-"Plug 'mkitt/tabline.vim'
-"Plug 'jistr/vim-nerdtree-tabs'
-"Plug 'tpope/vim-fugitive'
-"Plug 'airblade/vim-gitgutter'
-"Plug 'vim-scripts/grep.vim'
-"Plug 'vim-scripts/CSApprox'
-"Plug 'Raimondi/delimitMate'
-"Plug 'majutsushi/tagbar'
-"Plug 'w0rp/ale'
-"Plug 'sheerun/vim-polyglot'
-"Plug 'tpope/vim-rhubarb' " required by fugitive to :Gbrowse
+    Plug 'preservim/nerdtree'                               " Tree file system explorer
+    Plug 'itchyny/lightline.vim'                            " Statusline/tabline
+    Plug 'mengelbrecht/lightline-bufferline'                " Bufferline(tabs) for lightline
+    Plug 'tpope/vim-commentary'                             " Comment/uncomment stuff
+    Plug 'Yggdroot/indentLine'                              " Display indendation level information
+    Plug 'mmozuras/vim-whitespace'                          " Strips trailing whitespace
+    Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }     " Command line fuzzy finder
+    Plug 'junegunn/fzf.vim'                                 " Plugin/keymappings for fzf
+    Plug 'tpope/vim-surround'                               " Add, delete, change surrounding brackets, parents, quotes
+    Plug 'lifepillar/vim-mucomplete'                        " Autocomplete
+    Plug 'SirVer/ultisnips'                                 " Snippets engine
+    Plug 'honza/vim-snippets'                               " Snippets
+    Plug 'jiangmiao/auto-pairs'                             " Auto add/remove brackets, parens, quotes
+    Plug 'morhetz/gruvbox'                                  " Colorscheme
+    " Plug 'rakr/vim-one'                                     " Colorscheme
+    "
+    "Plug 'mkitt/tabline.vim'
+    "Plug 'jistr/vim-nerdtree-tabs'
+    "Plug 'tpope/vim-fugitive'
+    "Plug 'airblade/vim-gitgutter'
+    "Plug 'vim-scripts/grep.vim'
+    "Plug 'vim-scripts/CSApprox'
+    "Plug 'Raimondi/delimitMate'
+    "Plug 'majutsushi/tagbar'
+    "Plug 'w0rp/ale'
+    "Plug 'sheerun/vim-polyglot'
+    "Plug 'tpope/vim-rhubarb' " required by fugitive to :Gbrowse
 
-call plug#end()
-
+    call plug#end()
 
 "*****************************************************************************
 "" Basic setup
 "*****************************************************************************
-" Makes Vim work without being Vi-compatible, making it all its enhancements/improvements/features available
-" This must be first, because it changes other options as a side effect.
-set nocompatible
+    " Makes Vim work without being Vi-compatible, making it all its enhancements/improvements/features available
+    " This must be first, because it changes other options as a side effect.
+    set nocompatible
 
-" Ignore a file's modelines (comments in a file that override vim settings)
-set nomodeline
+    " Ignore a file's modelines (comments in a file that override vim settings)
+    set nomodeline
 
-" Allow backspacing over everything in insert mode
-set backspace=indent,eol,start
-"
-" If you need mouse support, enable it
-"if has('mouse')
-"  set mouse=a
-"endif
-"
-" Keep 50 lines of command line history
-set history=50
+    " Allow backspacing over everything in insert mode
+    set backspace=indent,eol,start
+    "
+    " If you need mouse support, enable it
+    "if has('mouse')
+    "  set mouse=a
+    "endif
+    "
+    " Keep 50 lines of command line history
+    set history=50
 
-"" Code Formatting
-set autoindent          " auto indent
-filetype plugin indent on
-set expandtab           " expand tabs into spaces
-set tabstop=4           " tab width is 4 spaces
-set shiftwidth=4
-set softtabstop=4       " backspace will remove entire 'tab' instead of just one space
+    "" Code Formatting
+    set autoindent          " auto indent
+    filetype plugin indent on
+    set expandtab           " expand tabs into spaces
+    set tabstop=4           " tab width is 4 spaces
+    set shiftwidth=4
+    set softtabstop=4       " backspace will remove entire 'tab' instead of just one space
 
-"" Visual Layout
-set number              " Show line numbers
-"set cursorline         " Put a line under the currently selected line
-set ruler		        " show the cursor position all the time
-set showcmd		        " display incomplete commands
-set laststatus=2        " shows statusbar at all times
-set noshowmode          " dont display mode (lightline handles this)
+    "" Visual Layout
+    set number              " Show line numbers
+    "set cursorline         " Put a line under the currently selected line
+    set ruler		        " show the cursor position all the time
+    set showcmd		        " display incomplete commands
+    set laststatus=2        " shows statusbar at all times
+    set noshowmode          " dont display mode (lightline handles this)
 
-"" Color Settings
-" colorscheme one
-colorscheme gruvbox
-set background=dark     " Enable dark mode
-syntax on               " Turn on syntax highlighting.
+    "" Color Settings
+    " colorscheme one
+    colorscheme gruvbox
+    set background=dark     " Enable dark mode
+    syntax on               " Turn on syntax highlighting.
 
-"" Searching
-set hlsearch            " Highlight matching search patterns
-set incsearch           " Enable incremental search (starts highlighting before you hit enter)
-"set ignorecase         " Case insentitive search (this includes replacements)
-"set smartcase          " Case sensitive search if search contains capital letter
+    "" Searching
+    set hlsearch            " Highlight matching search patterns
+    set incsearch           " Enable incremental search (starts highlighting before you hit enter)
+    "set ignorecase         " Case insentitive search (this includes replacements)
+    "set smartcase          " Case sensitive search if search contains capital letter
 
-"" Split Settings
-set splitbelow          " Open new vertical split panes to the right
-set splitright          " Open new horizontal split panes below
+    "" Split Settings
+    set splitbelow          " Open new vertical split panes to the right
+    set splitright          " Open new horizontal split panes below
 
-" indentLine options
-let g:indentLine_char_list = ['|', '¦', '┆', '┊']
-let g:indentLine_leadingSpaceEnabled = 1
-let g:indentLine_leadingSpaceChar = '.'
+"*****************************************************************************
+"" Plugin Options + Keymappings
+"*****************************************************************************
+    "" Native VIM
+    nnoremap <C-j> <C-w>j   " Ctrl-j = Move down to the next split pane
+    nnoremap <C-k> <C-w>k   " Ctrl-k = Move up to the next split pane
+    nnoremap <C-h> <C-w>h   " Ctrl-h = Move left to the next split pane
+    nnoremap <C-l> <C-w>l   " Ctrl-l = Move right to the next split pane
 
-"" Lightline Options
-" Add tab bar
-let g:lightline = {
-    \ 'colorscheme': 'one',
-    \ 'active': {
-    \   'left': [ [ 'mode', 'paste' ], [ 'readonly', 'filename', 'modified' ] ]
-    \ },
-    \ 'tabline': {
-    \   'left': [ ['buffers'] ],
-    \   'right': [ [''] ]
-    \ },
-    \ 'component_expand': {
-    \   'buffers': 'lightline#bufferline#buffers'
-    \ },
-    \ 'component_type': {
-    \   'buffers': 'tabsel'
-    \ }
-    \ }
-let g:lightline#bufferline#filename_modifier = ':t'
-let g:lightline#bufferline#show_number = 1  " Show buffer number on tabline (switch with :bx where x is buffer number)
-let g:lightline#bufferline#clickable = 0    " Disable clickable tabs
-set showtabline=2                           " Always show tabline
+    "" nerdtree
+    nmap <silent> <F2> :execute 'NERDTreeToggle ' . getcwd()<CR>    " Toggle the NERDTree explorer
 
-"" UltiSnips Options
-let g:UltiSnipsExpandTrigger="<tab>"
-let g:UltiSnipsJumpForwardTrigger="<tab>"
-let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
-autocmd FileType python UltiSnipsAddFiletypes amergintInternUseVimSnippets
-" Make sure to add amergintInterUserVimSnippets (from sw/interface) to .vim/plugged/vim-snippets/snippets/
+    "" lightline Options
+        " Add tab bar
+        let g:lightline = {
+            \ 'colorscheme': 'one',
+            \ 'active': {
+            \   'left': [ [ 'mode', 'paste' ], [ 'readonly', 'filename', 'modified' ] ]
+            \ },
+            \ 'tabline': {
+            \   'left': [ ['buffers'] ],
+            \   'right': [ [''] ]
+            \ },
+            \ 'component_expand': {
+            \   'buffers': 'lightline#bufferline#buffers'
+            \ },
+            \ 'component_type': {
+            \   'buffers': 'tabsel'
+            \ }
+            \ }
+        let g:lightline#bufferline#filename_modifier = ':t'
+        let g:lightline#bufferline#show_number = 1  " Show buffer number on tabline (switch with :bx where x is buffer number)
+        let g:lightline#bufferline#clickable = 0    " Disable clickable tabs
+        set showtabline=2                           " Always show tabline
 
- "" MUcomplete Options
-" set completeopt+=menuone                        " Enable MUcomplete
-" set completeopt+=noselect                       " Complete doesn't happen until told to
-" set shortmess+=c                                " Shut off completion messages
-" set belloff+=ctrlg                              " If Vim beeps during completion
-" let g:mucomplete#enable_auto_at_startup = 1     " Enable auto completion on startup
-" let g:mucomplete#tab_when_no_results = 1        " Insert tab when no results are returned
-" " fix autopairs compatability
-" let g:AutoPairsMapSpace = 0
-" imap <silent> <expr> <space> pumvisible()
-"     \ ? "<space>"
-"     \ : "<c-r>=AutoPairsSpace()<cr>"
-" let g:AutoPairsMapCR = 0
-" imap <Plug>MyCR <Plug>(MUcompleteCR)<Plug>AutoPairsReturn
-" imap <cr> <Plug>MyCR
+    " indentLine options
+        let g:indentLine_char_list = ['|', '¦', '┆', '┊']
+        let g:indentLine_leadingSpaceEnabled = 1
+        let g:indentLine_leadingSpaceChar = '.'
+
+    "" fzf
+        map <C-t> <Esc><Esc>:Files!<CR>         " Ctrl-t = Fuzzy find a file starting from the current directory
+        map <C-f> <Esc><Esc>:BLines!<CR>        " Ctrl-f = Fuzy find text within the file
+        " Put the following in your .bashrc to define what FzF uses to find files
+        " (ignores hidden files, build files in /iso/ and /build/)
+        "export FZF_DEFAULT_COMMAND="find . -type f \( ! -iname '.*' \) | grep -v '/iso/' | grep -v '/build/' | grep -v '.svn'"
+
+    "" mucomplete + UltiSnips + AutoPairs Options
+        " Remap UltiSnips trigger so they don't conflict with mucomplete
+        let g:UltiSnipsExpandTrigger="<C-right>"
+        let g:UltiSnipsJumpForwardTrigger="<C-right>"
+        " let g:UltiSnipsJumpBackwardTrigger="<C-left>"
+        let g:UltiSnipsJumpBackwardTrigger="<S-tab>"
+        autocmd FileType python UltiSnipsAddFiletypes amergintInternUseVimSnippets
+        " Make sure to add amergintInterUserVimSnippets.snippets (from sw/interface) to .vim/plugged/vim-snippets/snippets/
+
+        set completeopt-=preview
+        set completeopt+=menuone,noselect
+        set shortmess+=c    " Shut off completion messages
+        set belloff+=ctrlg  " If Vim beeps during completion
+        let g:mucomplete#enable_auto_at_startup = 1     " Enable auto completion on startup
+        let g:mucomplete#tab_when_no_results = 1        " Insert tab when no results are returned
+        let g:mucomplete#chains = {
+                    \ 'default': ['ulti', 'keyn', 'incl'],
+                    \ }
+                    " \ 'default' : 'default': ['path', 'omni', 'keyn', 'dict', 'uspl']
+
+        " fix AutoPairs compatability
+        let g:AutoPairsMapCR = 0
+        let g:AutoPairsMapSpace = 0
+        imap <silent> <expr> <space> pumvisible()
+            \ ? "<space>"
+            \ : "<c-r>=AutoPairsSpace()<cr>"
+        inoremap <silent> <expr> <plug>UltiExpand
+	        \ mucomplete#ultisnips#expand_snippet("\<cr>")
+        imap <plug>MyCR <plug>UltiExpand<plug>AutoPairsReturn
+        imap <cr> <plug>MyCR
+        " let g:AutoPairsMapCR = 0
+        " imap <Plug>MyCR <Plug>(MUcompleteCR)<Plug>AutoPairsReturn
+        " imap <cr> <Plug>MyCR
+
+        " Pair ultisnips and mucomplete
+        fun! TryUltiSnips()
+            let g:ulti_expand_or_jump_res = 0
+            if !pumvisible() " With the pop-up menu open, let Tab move down
+                call UltiSnips#ExpandSnippetOrJump()
+            endif
+            return ''
+        endf
+
+        fun! TryMUcomplete()
+            return g:ulti_expand_or_jump_res ? "" : "\<plug>(MUcompleteFwd)"
+        endf
+
+        let g:mucomplete#no_mappings  = 1 " Don't do any mappings I will do it myself
+
+        " Extend completion
+        " imap <expr> <S-tab> mucomplete#extend_fwd("\<right>")
+
+        " Cycle through completion chains
+        imap <unique> <c-'> <plug>(MUcompleteCycFwd)
+        imap <unique> <c-;> <plug>(MUcompleteCycBwd)
+
+        " Try to expand snippet, if fails try completion.
+        inoremap <plug>(TryUlti) <c-r>=TryUltiSnips()<cr>
+        imap <expr> <silent> <plug>(TryMU) TryMUcomplete()
+        imap <expr> <silent> <tab> "\<plug>(TryUlti)\<plug>(TryMU)"
+        " Map tab in select mode as well, otherwise you won't be able to jump if a snippet place
+        " holder has default value.
+        snoremap <silent> <tab> <Esc>:call UltiSnips#ExpandSnippetOrJump()<cr>
+        " Autoexpand if completed keyword is a snippet
+        inoremap <silent> <expr> <plug>MyCR mucomplete#ultisnips#expand_snippet("\<cr>")
+        imap <cr> <plug>MyCR
 
 " Consider these options
 "
@@ -169,96 +239,3 @@ autocmd FileType python UltiSnipsAddFiletypes amergintInternUseVimSnippets
 " set wrap
 " Wrap text that extends past 80 characters
 " textwidth = 80
-
-
-"*****************************************************************************
-"" Key mappings
-"*****************************************************************************
-"" Vim Native
-nnoremap <C-j> <C-w>j   " Ctrl-j = Move down to the next split pane
-nnoremap <C-k> <C-w>k   " Ctrl-k = Move up to the next split pane
-nnoremap <C-h> <C-w>h   " Ctrl-h = Move left to the next split pane
-nnoremap <C-l> <C-w>l   " Ctrl-l = Move right to the next split pane
-"" NERDTree
-nmap <silent> <F2> :execute 'NERDTreeToggle ' . getcwd()<CR>    " Toggle the NERDTree explorer
-
-"" FZF
-map <C-t> <Esc><Esc>:Files!<CR>         " Ctrl-t = Fuzzy find a file starting from the current directory
-map <C-f> <Esc><Esc>:BLines!<CR>        " Ctrl-f = Fuzy find text within the file
-" Put the following in your .bashrc to define what FzF uses to find files
-" (ignores hidden files, build files in /iso/ and /build/)
-"export FZF_DEFAULT_COMMAND="find . -type f \( ! -iname '.*' \) | grep -v '/iso/' | grep -v '/build/' | grep -v '.svn'"
-
-"
-"set ruler		" show the cursor position all the time
-"set showcmd		" display incomplete commands
-"
-"" Don't use Ex mode, use Q for formatting
-"map Q gq
-"
-"" CTRL-U in insert mode deletes a lot.  Use CTRL-G u to first break undo,
-"" so that you can undo CTRL-U after inserting a line break.
-"inoremap <C-U> <C-G>u<C-U>
-"
-"" In many terminal emulators the mouse works just fine, thus enable it.
-"if has('mouse')
-"  set mouse=a
-"endif
-"
-"" Only do this part when compiled with support for autocommands.
-"if has("autocmd")
-"
-"  " Enable file type detection.
-"  " Use the default filetype settings, so that mail gets 'tw' set to 72,
-"  " 'cindent' is on in C files, etc.
-"  " Also load indent files, to automatically do language-dependent indenting.
-"  filetype plugin indent on
-"
-"  " Put these in an autocmd group, so that we can delete them easily.
-"  augroup vimrcEx
-"  au!
-"
-"  " For all text files set 'textwidth' to 78 characters.
-"  autocmd FileType text setlocal textwidth=78
-"
-"  " When editing a file, always jump to the last known cursor position.
-"  " Don't do it when the position is invalid or when inside an event handler
-"  " (happens when dropping a file on gvim).
-"  " Also don't do it when the mark is in the first line, that is the default
-"  " position when opening a file.
-"  autocmd BufReadPost *
-"    \ if line("'\"") > 1 && line("'\"") <= line("$") |
-"    \   exe "normal! g`\"" |
-"    \ endif
-"
-"  augroup END
-"
-"else
-"
-"  set autoindent		" always set autoindenting on
-"
-"endif " has("autocmd")
-"
-"" Convenient command to see the difference between the current buffer and the
-"" file it was loaded from, thus the changes you made.
-"" Only define it when not defined already.
-"if !exists(":DiffOrig")
-"  command DiffOrig vert new | set bt=nofile | r # | 0d_ | diffthis
-"		  \ | wincmd p | diffthis
-"endif
-"imap {} {<cr>}<esc>O
-"set ls=2    "shows file name at all times
-"
-"" Changes terminal title to open file name
-"autocmd BufEnter * let &titlestring = expand("%:@")
-"set title
-"let &titleold='Terminal'
-"" end change terminal title
-"
-"
-"" Highlights characters that go over the prefered character line length
-"augroup vimrc_autocmds
-"    autocmd BufEnter * highlight OverLength ctermbg=darkred guibg=#FFD9D9
-"    autocmd BufEnter * match OverLength /\%>80v.\+/
-"augroup END
-"
