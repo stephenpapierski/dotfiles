@@ -106,6 +106,9 @@
     set splitbelow          " Open new vertical split panes to the right
     set splitright          " Open new horizontal split panes below
 
+    "" Clipboard Settings
+    set clipboard=unnamed   " Enable yanking to mac clipboard
+
 "*****************************************************************************
 "" Plugin Options + Keymappings
 "*****************************************************************************
