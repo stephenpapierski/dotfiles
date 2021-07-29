@@ -48,19 +48,8 @@
     Plug 'honza/vim-snippets'                               " Snippets
     Plug 'jiangmiao/auto-pairs'                             " Auto add/remove brackets, parens, quotes
     Plug 'morhetz/gruvbox'                                  " Colorscheme
-    " Plug 'rakr/vim-one'                                     " Colorscheme
-    "
-    "Plug 'mkitt/tabline.vim'
-    "Plug 'jistr/vim-nerdtree-tabs'
-    "Plug 'tpope/vim-fugitive'
-    "Plug 'airblade/vim-gitgutter'
-    "Plug 'vim-scripts/grep.vim'
-    "Plug 'vim-scripts/CSApprox'
-    "Plug 'Raimondi/delimitMate'
-    "Plug 'majutsushi/tagbar'
     "Plug 'w0rp/ale'
     "Plug 'sheerun/vim-polyglot'
-    "Plug 'tpope/vim-rhubarb' " required by fugitive to :Gbrowse
 
     call plug#end()
 
@@ -230,12 +219,3 @@
         " Autoexpand if completed keyword is a snippet
         inoremap <silent> <expr> <plug>MyCR mucomplete#ultisnips#expand_snippet("\<cr>")
         imap <cr> <plug>MyCR
-
-" Consider these options
-"
-" Set format options
-" set formatoptions=tcqrn1
-" Wrap text that extends beyond the screen length.
-" set wrap
-" Wrap text that extends past 80 characters
-" textwidth = 80
