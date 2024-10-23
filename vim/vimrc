@@ -89,6 +89,7 @@
     set showcmd		        " display incomplete commands
     set laststatus=2        " shows statusbar at all times
     set noshowmode          " dont display mode (lightline handles this)
+    set colorcolumn=121     " set visual column width at 120 to encourage consistent line lengths
 
     "" Color Settings
     " colorscheme one
